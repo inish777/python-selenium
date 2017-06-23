@@ -1,5 +1,7 @@
 from selenium.webdriver.firefox.webdriver import WebDriver
-from contact import Contact
+
+from model.contact import Contact
+
 
 class Application(object):
     def __init__(self):
