@@ -28,6 +28,7 @@ class ContactHelper(object):
     def create(self):
         wd = self.app.wd
         contact = self.build_object()
+        self.open_create_contact_page()
         wd.find_element_by_name("firstname").click()
         wd.find_element_by_name("firstname").clear()
         wd.find_element_by_name("firstname").send_keys(contact.name)
