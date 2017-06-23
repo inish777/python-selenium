@@ -13,13 +13,12 @@ def app(request):
 
 
 def test_create_group(app):
-    app.open_homepage("http://localhost:4000/")
-    app.login("admin", "secret")
-    app.create_new_group(Group(name="asdfsdf", header="fsgurghur", footer="fiwrwgin"))
-    app.logout()
+    app.session.login("admin", "secret")
+    app.group.create(Group(name="asdfsdf", header="fsgurghur", footer="fiwrwgin"))
+    app.session.logout()
+
 
 def test_create_empty_group(app):
-    app.open_homepage("http://localhost:4000/")
-    app.login("admin", "secret")
-    app.create_new_group(Group(name="", header="", footer=""))
-    app.logout()
+    app.session.login("admin", "secret")
+    app.group.create(Group(name="", header="", footer=""))
+    app.session.logout()

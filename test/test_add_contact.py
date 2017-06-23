@@ -11,10 +11,7 @@ def app(request):
     return fixture
 
 def test_test_add_contact(app):
-    app.open_homepage()
-    app.login(user="admin", password="secret")
-    app.open_create_contact_page()
-
-    contact = app.build_contact_object()
-
-    app.create_contact(contact)
+    app.session.login(user="admin", password="secret")
+    app.contact.open_create_contact_page()
+    app.contact.create()
+    app.session.logout()
