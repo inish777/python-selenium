@@ -29,6 +29,11 @@ class ContactHelper(object):
         wd = self.app.wd
         contact = self.build_object()
         self.open_create_contact_page()
+        self.fill_form(contact)
+        wd.find_element_by_xpath("//div[@id='content']/form/input[21]").click()
+
+    def fill_form(self, contact):
+        wd = self.app.wd
         wd.find_element_by_name("firstname").click()
         wd.find_element_by_name("firstname").clear()
         wd.find_element_by_name("firstname").send_keys(contact.name)
@@ -87,7 +92,7 @@ class ContactHelper(object):
             wd.find_element_by_xpath("//div[@id='content']/form/select[4]//option[9]").click()
         wd.find_element_by_name("ayear").click()
         wd.find_element_by_name("ayear").clear()
-        wd.find_element_by_name("ayear").send_keys(contact.born_year)
+        wd.find_element_by_name("ayear").send_keys(contact.anniversiary_year)
         wd.find_element_by_name("address2").click()
         wd.find_element_by_name("address2").clear()
         wd.find_element_by_name("address2").send_keys(contact.address2)
@@ -97,8 +102,24 @@ class ContactHelper(object):
         wd.find_element_by_name("notes").click()
         wd.find_element_by_name("notes").clear()
         wd.find_element_by_name("notes").send_keys(contact.notes)
-        wd.find_element_by_xpath("//div[@id='content']/form/input[21]").click()
+
+    def delete_first(self):
+        wd = self.app.wd
+        wd.find_element_by_name("selected[]").click()
+        wd.find_element_by_xpath("/html/body/div/div[4]/form[2]/div[2]/input").click()
+        wd.switch_to_alert().accept()
 
     def open_create_contact_page(self):
         wd = self.app.wd
         wd.find_element_by_link_text("add new").click()
+
+    def modify_first_contact(self):
+        wd = self.app.wd
+        wd.find_element_by_xpath("/html/body/div/div[4]/form[2]/table/tbody/tr[2]/td[8]/a").click()
+        contact = self.build_object()
+        contact.phone = '88005553535'
+        contact.phone2 = '88005553535'
+        contact.name = 'Buffy'
+        self.fill_form(contact)
+        wd.find_element_by_name("update").click()
+
