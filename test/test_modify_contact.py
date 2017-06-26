@@ -1,3 +1,4 @@
 def test_modify_contact(app):
-    app.open_homepage()
+    if app.contact.count() == 0:
+        app.contact.create()
     app.contact.modify_first_contact()

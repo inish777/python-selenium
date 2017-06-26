@@ -123,3 +123,7 @@ class ContactHelper(object):
         self.fill_form(contact)
         wd.find_element_by_name("update").click()
 
+    def count(self):
+        wd = self.app.wd
+        self.app.open_homepage()
+        return len(wd.find_elements_by_name("selected[]"))
