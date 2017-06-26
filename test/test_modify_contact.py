@@ -1,4 +1,3 @@
 def test_modify_contact(app):
-    app.session.login(user="admin", password="secret")
+    app.open_homepage()
     app.contact.modify_first_contact()
-    app.session.logout()
