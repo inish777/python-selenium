@@ -1,3 +1,9 @@
+import random
+import string
+
+from model.group import Group
+
+
 class GroupHelper(object):
     def __init__(self, app):
         self.app = app
@@ -22,7 +28,12 @@ class GroupHelper(object):
         wd.find_element_by_name("group_footer").clear()
         wd.find_element_by_name("group_footer").send_keys(group.footer)
 
-    def modify_group(self, group):
+    def modify_group(self, group=None):
+        if group is None:
+            name = ''.join(random.choice(string.ascii_lowercase) for _ in range(1,10))
+            header = ''.join(random.choice(string.ascii_lowercase) for _ in range(1,10))
+            footer = ''.join(random.choice(string.ascii_lowercase) for _ in range(1,10))
+            group = Group(name=name, header=header, footer=footer)
         wd = self.app.wd
         self.open_groups_page()
         wd.find_element_by_name("selected[]").click()
@@ -51,3 +62,13 @@ class GroupHelper(object):
         wd = self.app.wd
         self.open_groups_page()
         return len(wd.find_elements_by_name("selected[]"))
+
+    def get_group_list(self):
+        wd = self.app.wd
+        self.open_groups_page()
+        groups = []
+        for element in wd.find_elements_by_css_selector("span.group"):
+            text = element.text
+            id = element.find_element_by_name("selected[]").get_attribute("value")
+            groups.append(Group(name=text, id=id))
+        return groups

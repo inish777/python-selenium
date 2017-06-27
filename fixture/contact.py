@@ -1,4 +1,6 @@
 from model.contact import Contact
+import random
+import string
 
 
 class ContactHelper(object):
@@ -118,9 +120,10 @@ class ContactHelper(object):
         wd = self.app.wd
         wd.find_element_by_xpath("/html/body/div/div[4]/form[2]/table/tbody/tr[2]/td[8]/a").click()
         contact = self.build_object()
-        contact.phone = '88005553535'
-        contact.phone2 = '88005553535'
-        contact.name = 'Buffy'
+        contact.phone = ''.join(random.choice(string.digits) for _ in range(0, 11))
+        contact.phone2 = ''.join(random.choice(string.digits) for _ in range(0, 11))
+        contact.name = ''.join(random.choice(string.ascii_lowercase) for _ in range(0, 10))
+        contact.lastname = ''.join(random.choice(string.ascii_lowercase) for _ in range(0, 10))
         self.fill_form(contact)
         wd.find_element_by_name("update").click()
 
@@ -128,3 +131,15 @@ class ContactHelper(object):
         wd = self.app.wd
         self.app.open_homepage()
         return len(wd.find_elements_by_name("selected[]"))
+
+    def get_contact_list(self):
+        wd = self.app.wd
+        self.app.open_homepage()
+        contacts = []
+        for element in wd.find_elements_by_name("entry"):
+            columns = element.find_elements_by_tag_name('td')
+            id = columns[0].find_element_by_name("selected[]").get_attribute("value")
+            name = columns[1].text
+            lastname = columns[2].text
+            contacts.append(Contact(name=name, lastname=lastname, id=id))
+        return contacts

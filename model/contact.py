@@ -1,5 +1,5 @@
 class Contact(object):
-    def __init__(self, name, middlename, lastname, nickname):
+    def __init__(self, name=None, middlename=None, lastname=None, nickname=None, id=None):
         self.name = name
         self.middlename = middlename
         self.lastname = lastname
@@ -20,3 +20,7 @@ class Contact(object):
         self.address2 = ''
         self.phone2 = ''
         self.notes = ''
+        self.id = id
+
+    def __eq__(self, other):
+        return self.name == other.name and self.lastname == other.lastname and self.id == other.id
